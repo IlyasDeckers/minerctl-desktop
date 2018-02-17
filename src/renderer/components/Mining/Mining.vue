@@ -36,10 +36,10 @@
 
 <script>
 import Navigation from '../Navigation/NavigationComponent'
-import MinerStatsComponent from './Mining/MinerStatsComponent'
-import StartMinerComponent from './Mining/StartMinerComponent'
+import MinerStatsComponent from './MinerStatsComponent'
+import StartMinerComponent from './StartMinerComponent'
 import Loading from '../Loading/LoadingComponent'
-import smi from '../app/Nvidia/Smi'
+import smi from '../../app/Nvidia/Smi'
 import ps from 'ps-node'
 
 export default {
