@@ -24,7 +24,7 @@ var router = new Router({
     {
       path: '/mining',
       name: 'mining',
-      component: require('@/components/Mining').default
+      component: require('@/components/Mining/Mining').default
     },
     {
       path: '/settings',
