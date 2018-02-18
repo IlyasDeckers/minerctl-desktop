@@ -128,7 +128,7 @@ export default {
       this.$http.get(url + params).then(response => {
         if (key === 'transactions') {
           response.data.forEach((data) => {
-            if (data.to === this.wallets[ 0 ].address) {
+            if (data.to.toLowerCase() === this.wallets[ 0 ].address.toLowerCase()) {
               data.way = '+'
             } else {
               data.way = '-'
