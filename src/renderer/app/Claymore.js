@@ -9,25 +9,29 @@ export default class Claymore {
   }
 
   socket () {
-    const socket = require('net')
-    var s = socket.Socket()
-    s.setEncoding('ascii')
-    s.connect(this.port, this.host)
-    var response = new Promise((resolve, reject) => {
-      s.on('data', d => {
-        var array = []
-        JSON.parse(d).result.forEach(function (d) {
-          array.push(d.split(';'))
+    try {
+      const socket = require('net')
+      var s = socket.Socket()
+      s.setEncoding('ascii')
+      s.connect(this.port, this.host)
+      var response = new Promise((resolve, reject) => {
+        s.on('data', d => {
+          var array = []
+          JSON.parse(d).result.forEach(function (d) {
+            array.push(d.split(';'))
+          })
+          resolve(array)
         })
-        resolve(array)
       })
-    })
-    response.then((result) => {
-      s.end()
-      this.formatResponse(result)
-    })
+      response.then((result) => {
+        s.end()
+        this.formatResponse(result)
+      })
 
-    s.write('{"id":0,"jsonrpc":"2.0","method":"' + this.method + '"}')
+      s.write('{"id":0,"jsonrpc":"2.0","method":"' + this.method + '"}')
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 
   formatResponse (data) {

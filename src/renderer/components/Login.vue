@@ -6,7 +6,7 @@
     </div>
     <div class="card-content">
       <h4 class="card-title">Enter your api key -
-        <small class="category">You can obtain an API key on http://192.168.0.46</small>
+        <small class="category"></small>
       </h4>
       <form @submit.prevent="key()" class="form-horizontal">
       <div class="row">

@@ -6,9 +6,9 @@ import svgicon from 'vue-svgicon'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 
-require('dotenv').load()
-Vue.prototype.$env = process.env
-const env = process.env
+const config = require('electron-config-env')
+const env = config.config
+Vue.prototype.$env = config.config
 
 Object.defineProperty(Vue.prototype, '$bus', {
   get () {
@@ -29,7 +29,7 @@ const Web3 = require('web3')
 Vue.web3 = Vue.prototype.$web3 = new Web3(
   new Web3.providers.HttpProvider(env.INFURA_URL)
 )
-
+console.log(env)
 Vue.http = Vue.prototype.$http = axios.create({
   baseURL: env.HOME_URL + 'api/',
   timeout: 25000,

@@ -9,8 +9,8 @@ export default class Backend {
   }
 
   constructor () {
-    require('dotenv').load()
-    var host = process.env.HOME_URL
+    const config = require('electron-config-env')
+    var host = config.config.HOME_URL
     var prefix = 'api'
     var headers = {
       'Authorization': 'Bearer ' + localStorage.getItem('apiKey'),
