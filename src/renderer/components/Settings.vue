@@ -93,6 +93,7 @@
 <script>
 import Navigation from './Navigation/NavigationComponent'
 import Loading from './Loading/LoadingComponent'
+import Backend from '../app/Backend/Backend'
 
 export default {
   name: 'settings',
@@ -130,14 +131,10 @@ export default {
 
   methods: {
     getUser () {
-      this.$http.get('http://192.168.0.46/api/user', {
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('apiKey')
-        }
-      }).then(response => {
-        this.user = response.data
-        this.loading.state = false
-      })
+      let b = new Backend()
+      b.request('user')
+      this.user = b.response
+      this.loading.state = false
     },
     saveSettings () {
       // store the api key
