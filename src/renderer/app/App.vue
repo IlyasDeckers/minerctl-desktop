@@ -5,6 +5,7 @@
 </template>
 
 <script>
+  import 'jquery'
   import 'bootstrap'
   import 'material-dashboard/js/material.min.js'
   import 'material-dashboard/js/jquery.select-bootstrap.js'
@@ -16,7 +17,7 @@
   import 'material-dashboard/js/sweetalert2.js'
   import 'material-dashboard/js/demo.js'
   export default {
-    name: 'MinerC.TL'
+    name: 'MinerCTL'
   }
 </script>
 
@@ -24,5 +25,5 @@
   @import '~material-dashboard/css/fontawesome.min.css';
   @import '~material-dashboard/css/bootstrap.min.css';
   @import '~material-dashboard/css/material-dashboard.css';
-  @import '~material-dashboard/css/demo.css';
+  @import '~material-dashboard/css/style.css';
 </style>
