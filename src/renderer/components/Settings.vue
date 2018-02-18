@@ -113,13 +113,14 @@ export default {
         settings: Boolean(JSON.parse((localStorage.getItem('menuSettings').toString()).toLowerCase()))
       },
       user: {
-        name: 'test',
-        email: 'test'
+        name: '',
+        email: ''
       },
       loading: {
         state: true,
         message: 'Loading'
-      }
+      },
+      response: {}
     }
   },
 
