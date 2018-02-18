@@ -59,9 +59,9 @@ var router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  require('dotenv').load()
+  const config = require('electron-config-env')
   const r = axios.create({
-    baseURL: process.env.HOME_URL + '/api/',
+    baseURL: config.config.HOME_URL + 'api/',
     timeout: 25000,
     headers: {
       'Authorization': 'Bearer ' + localStorage.getItem('apiKey'),
@@ -71,7 +71,6 @@ router.beforeEach((to, from, next) => {
 
   if (to.name !== 'login') {
     r.get('user').then(response => {
-      console.log(response)
       localStorage.setItem('userId', response.data.id)
       next()
     }).catch(error => {
