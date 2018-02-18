@@ -60,7 +60,7 @@ Vue.mixin({
       var i; var key; var matches = []
       for (i = arr.length; i--;) {
         for (key in arr[i]) {
-          if (arr[i].hasOwnProperty(key) && arr[i][key].indexOf(s) > -1) {
+          if (arr[i][key].indexOf(s) !== -1) {
             matches.push(arr[i])
           }
         }

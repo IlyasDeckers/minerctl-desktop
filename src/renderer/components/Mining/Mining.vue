@@ -75,24 +75,26 @@ export default {
     },
 
     isRunning () {
+      // Get the active processes per GPU
+      // and check if claymore is running
       smi((err, data) => {
         if (err) {
           this.error = err
           throw new Error(err)
         }
-        console.log(data)
         var gpu = data.nvidia_smi_log.gpu
         var processes
 
+        // Check if there are more then 1 GPU on  the system
+        // and return the processes
         if (Array.isArray(gpu) === true) {
           processes = gpu[ 0 ].processes.process_info
-          console.log(processes)
         } else {
           processes = gpu.processes.process_info
-          console.log(processes)
         }
 
-        const response = this.search(processes, 'C:\\Claymore_v10.0\\EthDcrMiner64.exe')
+        // Check the response if Claymore is running
+        const response = this.search(processes, 'EthDcrMiner64.exe')
         console.log(response)
         if (response.length > 0) {
           this.$bus.$emit('startInterval')
