@@ -130,10 +130,16 @@ export default {
       if (this.interval === false) this.startInterval()
       const c = new Claymore('miner_getstat1')
       const response = new Promise((resolve, reject) => {
-        c.socket(); resolve()
+        try {
+          c.socket(); resolve()
+        } catch (error) {
+          reject(error)
+        }
       })
       response.then((data) => {
         this.claymore = c
+      }).catch(error => {
+        console.log(error)
       })
     }
   }

@@ -29,38 +29,15 @@
       </div>
       <label class="col-sm-2 label-on-left">Select GPU's</label>
       <div class="col-sm-9">
-        <div class="col-sm-2">
+        <div class="col-sm-6" v-for="(gpu,index)  in gpus">
           <div class="togglebutton">
             <label>
-              <input type="checkbox" checked="" v-model="menu.home"><span class="toggle"></span> Home
+              <input type="checkbox" v-model="startGpus[index]" checked=""><span class="toggle"></span> {{ gpu.product_name }}
             </label>
           </div>
         </div>
-        <div class="col-sm-2">
-          <div class="togglebutton">
-            <label>
-              <input type="checkbox" checked="" v-model="menu.wallet"><span class="toggle"></span> Wallet
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-2">
-          <div class="togglebutton">
-            <label>
-              <input type="checkbox" checked="" v-model="menu.mining"><span class="toggle"></span> Mining
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-2">
-          <div class="togglebutton">
-            <label>
-              <input type="checkbox" checked="" v-model="menu.system"><span class="toggle"></span> System
-            </label>
-          </div>
-        </div>
+        
       </div>
-      <label class="col-sm-1 label-on-right" style="padding: 11px 0 0 5px;">
-        <a class="btn btn-fill btn-info btn-xs">Create</a>
-      </label>
     </div>
     <div class="row">
       <div class="col-md-12">
@@ -84,12 +61,15 @@ export default {
       wallets: {},
       wallet: '',
       rigName: '',
-      pool: ''
+      pool: '',
+      gpus: {},
+      startGpus: {}
     }
   },
 
   mounted () {
     this.getWallets()
+    this.$bus.$on('setGpus', data => { this.gpus = data })
   },
 
   methods: {
@@ -112,9 +92,14 @@ export default {
 
       this.$bus.$emit('toggleLoading', 'Starting Miner')
 
+      var gpus = []
+      Object.keys(this.startGpus).forEach((i) => {
+        if (this.startGpus[i] === true) gpus.push(i)
+      })
+
       var spawn = childProcess.spawn
       spawn('cmd.exe', [
-        '/c', 'C:\\Claymore_v10.0\\EthDcrMiner64.exe -epool ' + this.pool + ' -ewal ' + this.wallet.address + '.' + this.rigName + ' -epsw x -mode 1 -allpools 1'
+        '/c', 'C:\\Claymore_v10.0\\EthDcrMiner64.exe -epool ' + this.pool + ' -ewal ' + this.wallet.address + '.' + this.rigName + ' -di ' + gpus + ' -epsw x -mode 1 -allpools 1'
       ], { detached: true })
 
       setTimeout(data => {
