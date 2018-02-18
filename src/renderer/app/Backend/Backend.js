@@ -9,7 +9,8 @@ export default class Backend {
   }
 
   constructor () {
-    var host = '192.168.0.46'
+    require('dotenv').load()
+    var host = process.env.HOME_URL
     var prefix = 'api'
     var headers = {
       'Authorization': 'Bearer ' + localStorage.getItem('apiKey'),
@@ -23,7 +24,7 @@ export default class Backend {
     }
 
     this.http = axios.create({
-      baseURL: 'http://' + host + '/' + prefix + '/',
+      baseURL: host + '/' + prefix + '/',
       timeout: 25000,
       headers: headers
     })

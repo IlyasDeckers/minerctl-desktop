@@ -104,7 +104,7 @@ export default {
   methods: {
     getPool () {
       this.$http.get(
-        'http://192.168.0.46/api/pools/' + localStorage.getItem('currentMiningAddress')
+        this.$env.HOME_URL + '/api/pools/' + localStorage.getItem('currentMiningAddress')
       ).then(response => {
         this.pool = response.data[0]
       })

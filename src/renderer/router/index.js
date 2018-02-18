@@ -59,8 +59,9 @@ var router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  require('dotenv').load()
   const r = axios.create({
-    baseURL: 'http://192.168.0.46/api/',
+    baseURL: process.env.HOME_URL + '/api/',
     timeout: 25000,
     headers: {
       'Authorization': 'Bearer ' + localStorage.getItem('apiKey'),

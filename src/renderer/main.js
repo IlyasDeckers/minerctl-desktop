@@ -6,27 +6,32 @@ import svgicon from 'vue-svgicon'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 
+require('dotenv').load()
+Vue.prototype.$env = process.env
+const env = process.env
+
 Object.defineProperty(Vue.prototype, '$bus', {
   get () {
     return this.$root.bus
   }
 })
+
 const Pusher = require('pusher')
 Vue.pusher = Vue.prototype.$pusher = new Pusher({
-  appId: '477293',
-  key: '2e525fdc0bc8419d252c',
-  secret: '6156a1f4e9bda984692d',
-  cluster: 'eu',
+  appId: env.PUSHER_APP_ID,
+  key: env.PUSHER_APP_KEY,
+  secret: env.PUSHER_APP_SECRET,
+  cluster: env.PUSHER_APP_CUSTER,
   encrypted: true
 })
 
 const Web3 = require('web3')
 Vue.web3 = Vue.prototype.$web3 = new Web3(
-  new Web3.providers.HttpProvider('https://mainnet.infura.io/P5iyGV9tixji8mEvl8QB')
+  new Web3.providers.HttpProvider(env.INFURA_URL)
 )
 
 Vue.http = Vue.prototype.$http = axios.create({
-  baseURL: 'http://192.168.0.46/api/',
+  baseURL: env.HOME_URL + 'api/',
   timeout: 25000,
   headers: {
     'Authorization': 'Bearer ' + localStorage.getItem('apiKey'),

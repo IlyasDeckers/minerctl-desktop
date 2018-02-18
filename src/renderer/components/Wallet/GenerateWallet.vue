@@ -132,7 +132,7 @@ export default {
     generateAddress () {
       var response = this.$web3.eth.accounts.create()
       var wallet = this.wallet
-      console.log(response)
+
       wallet.privateKey = response.privateKey
       wallet.address = response.address
 
