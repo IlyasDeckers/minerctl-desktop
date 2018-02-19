@@ -69,7 +69,14 @@ export default {
 
   mounted () {
     this.getWallets()
-    this.$bus.$on('setGpus', data => { this.gpus = data })
+    this.$bus.$on('setGpus', data => {
+      if (data[ 0 ] === undefined) {
+        data = {
+          data
+        }
+      }
+      this.gpus = data
+    })
   },
 
   methods: {

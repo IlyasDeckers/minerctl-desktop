@@ -84,19 +84,25 @@ export default {
         }
         var gpu = data.nvidia_smi_log.gpu
         var processes
-
+        console.log(data.nvidia_smi_log.gpu)
         this.$bus.$emit('setGpus', gpu)
 
         // Check if there are more then 1 GPU on  the system
         // and return the processes
-        if (Array.isArray(gpu) === true) {
+        //
+        // To-do:
+        //   - forEach over whole array, stop if true, if false = no process
+        if (gpu[ 1 ] !== undefined) {
           processes = gpu[ 1 ].processes.process_info
         } else {
           processes = gpu.processes.process_info
         }
 
-        // Check the response if Claymore is running
-        const response = this.search(processes, 'EthDcrMiner64.exe')
+        var response
+        if (processes !== undefined) {
+          // Check the response if Claymore is running
+          response = this.search(processes, 'EthDcrMiner64.exe')
+        } else response = ''
 
         if (response.length > 0) {
           this.$bus.$emit('startInterval')
