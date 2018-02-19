@@ -4,11 +4,11 @@ import App from './app/App'
 import router from './router'
 import svgicon from 'vue-svgicon'
 
+const env = require('./env.json')
+console.log(env)
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 
-const config = require('electron-config-env')
-const env = config.config
-Vue.prototype.$env = config.config
+Vue.prototype.$env = env
 
 Object.defineProperty(Vue.prototype, '$bus', {
   get () {

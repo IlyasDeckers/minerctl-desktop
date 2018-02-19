@@ -59,9 +59,9 @@ var router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  const config = require('electron-config-env')
+  const env = require('../env.json')
   const r = axios.create({
-    baseURL: config.config.HOME_URL + 'api/',
+    baseURL: env.HOME_URL + 'api/',
     timeout: 25000,
     headers: {
       'Authorization': 'Bearer ' + localStorage.getItem('apiKey'),
