@@ -13,8 +13,7 @@ let mainConfig = {
     main: path.join(__dirname, '../src/main/index.js')
   },
   externals: [
-    ...Object.keys(dependencies || {}),
-    'dotenv'
+    ...Object.keys(dependencies || {})
   ],
   module: {
     rules: [
