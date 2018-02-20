@@ -54,6 +54,7 @@ export default {
       },
       output: {},
       process: false,
+      pid: '',
       runningHeading: 'Not running',
       error: ''
     }
@@ -82,6 +83,9 @@ export default {
           this.error = err
           throw new Error(err)
         }
+
+        // Get the GPUs installed on the host and send
+        // this to StartMiner.
         var gpu = data.nvidia_smi_log.gpu
         this.$bus.$emit('setGpus', gpu)
 
@@ -91,6 +95,12 @@ export default {
           this.$bus.$emit('startInterval')
           this.runningHeading = 'Currently mining ETH'
           this.process = true
+          ps.lookup({ command: 'EthDcrMiner64.exe' }, (err, resultList) => {
+            if (err) {
+              throw new Error(err)
+            }
+            this.pid = resultList[0].pid
+          })
         } else {
           this.process = false
         }
@@ -100,10 +110,9 @@ export default {
     },
 
     killProcess () {
-      const pid = this.process.pid
       this.process = false
       var kill = new Promise((resolve, reject) => {
-        ps.kill(pid, {
+        ps.kill(this.pid, {
           timeout: 3
         }, (error) => { if (error) console.log('killprocess: ' + error); resolve() })
       })
