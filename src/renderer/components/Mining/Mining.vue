@@ -83,12 +83,10 @@ export default {
           this.error = err
           throw new Error(err)
         }
-
         // Get the GPUs installed on the host and send
         // this to StartMiner.
         var gpu = data.nvidia_smi_log.gpu
         this.$bus.$emit('setGpus', gpu)
-
         // Check if there are more then 1 GPU on  the system
         // and return the processes
         if (JSON.stringify(gpu[1]).search('EthDcrMiner64.exe') > 0) {
@@ -97,14 +95,13 @@ export default {
           this.process = true
           ps.lookup({ command: 'EthDcrMiner64.exe' }, (err, resultList) => {
             if (err) {
+              this.process = false
               throw new Error(err)
             }
             this.pid = resultList[0].pid
           })
-        } else {
-          this.process = false
         }
-
+        // Disable loading and show stats mining component
         this.loading.state = false
       })
     },
