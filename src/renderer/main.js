@@ -3,9 +3,9 @@ import axios from 'axios'
 import App from './app/App'
 import router from './router'
 import svgicon from 'vue-svgicon'
+import env from './env.json'
+import Pusher from 'pusher'
 
-const env = require('./env.json')
-console.log(env)
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 
 Vue.prototype.$env = env
@@ -16,12 +16,11 @@ Object.defineProperty(Vue.prototype, '$bus', {
   }
 })
 
-const Pusher = require('pusher')
 Vue.pusher = Vue.prototype.$pusher = new Pusher({
   appId: env.PUSHER_APP_ID,
   key: env.PUSHER_APP_KEY,
   secret: env.PUSHER_APP_SECRET,
-  cluster: env.PUSHER_APP_CUSTER,
+  cluster: env.PUSHER_APP_CLUSTER,
   encrypted: true
 })
 
@@ -29,7 +28,7 @@ const Web3 = require('web3')
 Vue.web3 = Vue.prototype.$web3 = new Web3(
   new Web3.providers.HttpProvider(env.INFURA_URL)
 )
-console.log(env)
+
 Vue.http = Vue.prototype.$http = axios.create({
   baseURL: env.HOME_URL + 'api/',
   timeout: 25000,
@@ -62,11 +61,9 @@ Vue.mixin({
       }
     },
     search: (arr, s) => {
-      console.log(arr)
       var i; var key; var matches = []
       for (i = arr.length; i--;) {
         for (key in arr[i]) {
-          console.log(arr[i])
           if (arr[i][key].indexOf(s) !== -1) {
             matches.push(arr[i])
           }
