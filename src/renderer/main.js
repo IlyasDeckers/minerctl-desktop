@@ -62,9 +62,11 @@ Vue.mixin({
       }
     },
     search: (arr, s) => {
+      console.log(arr)
       var i; var key; var matches = []
       for (i = arr.length; i--;) {
         for (key in arr[i]) {
+          console.log(arr[i])
           if (arr[i][key].indexOf(s) !== -1) {
             matches.push(arr[i])
           }
