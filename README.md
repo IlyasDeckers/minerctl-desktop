@@ -1,4 +1,5 @@
 # minerctl
+[![Build status](https://ci.appveyor.com/api/projects/status/u5gdsuift0axccr8/branch/master?svg=true)](https://ci.appveyor.com/project/IlyasDeckers/minerctl-desktop/branch/master)
 
 > Minerctl desktop application
 
