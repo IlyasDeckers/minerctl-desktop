@@ -90,7 +90,7 @@ export default {
       apiKey: localStorage.getItem('apiKey'),
       wallet: {},
       interval: false,
-      rigName: localStorage.getItem('rigName')
+      rigName: ''
     }
   },
   mounted () {
@@ -98,6 +98,7 @@ export default {
     this.$bus.$on('startInterval', () => this.getMinerStats())
     this.$bus.$on('stopInterval', () => this.stopInterval())
     this.$bus.$on('setRigName', data => { this.rigName = data })
+    this.rigName = localStorage.getItem('rigName')
   },
   methods: {
     getPool () {
@@ -110,7 +111,7 @@ export default {
 
     startInterval () {
       this.interval = setInterval(() => {
-        console.log('Interval')
+        this.rigName = localStorage.getItem('rigName')
         this.getMinerStats()
         this.getPool()
         // send post request to store the data

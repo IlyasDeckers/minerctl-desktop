@@ -2,30 +2,39 @@
   <div class="col-md-12 ">
     <div class="row">
       <div class="col-md-12 col-lg-8 col-lg-offset-2">
-        <div class="nav-center">
-            <Navigation></Navigation>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Home - <small class="category">Dashboard</small></h4>
-            </div>
-            <div class="card-content">
-                Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits.
-                <br />
-                <br /> Dramatically visualize customer directed convergence without revolutionary ROI.
-            </div>
-        </div>
+
+        <ul class="nav nav-pills nav-pills-info nav-pills-icons" role="tablist">
+          <li  >
+              <router-link to="/dashboard">
+                  <i class="material-icons">home</i> Home
+              </router-link>
+          </li>
+          <li >
+              <router-link to="/wallet">
+                  <i class="material-icons">account_balance_wallet</i> Wallet
+              </router-link>
+          </li>
+          <li >
+              <router-link to="/mining" role="tab" data-toggle="tab">
+                  <i class="material-icons">gavel</i> Miner
+              </router-link>
+          </li>
+          <li>
+              <router-link to="/settings" role="tab" data-toggle="tab">
+                  <i class="material-icons">settings</i> Settings
+              </router-link>
+          </li>
+        </ul>
+
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Navigation from './Navigation/NavigationComponent'
 
 export default {
   name: 'dashboard',
-  components: { Navigation },
   data () {
     return {
       auth: {

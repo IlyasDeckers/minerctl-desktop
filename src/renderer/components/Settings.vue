@@ -45,31 +45,18 @@
               </div>
               <div class="row">
                 <label class="col-sm-2 label-on-left">Edit Menu</label>
-                <div class="col-sm-2">
-                  <div class="togglebutton">
-                    <label>
-                      <input type="checkbox" checked="" v-model="menu.home"><span class="toggle"></span> Home
-                    </label>
-                  </div>
-                </div>
-                <div class="col-sm-2">
+                
+                <div class="col-sm-3">
                   <div class="togglebutton">
                     <label>
                       <input type="checkbox" checked="" v-model="menu.wallet"><span class="toggle"></span> Wallet
                     </label>
                   </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                   <div class="togglebutton">
                     <label>
                       <input type="checkbox" checked="" v-model="menu.mining"><span class="toggle"></span> Mining
-                    </label>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="togglebutton">
-                    <label>
-                      <input type="checkbox" checked="" v-model="menu.system"><span class="toggle"></span> System
                     </label>
                   </div>
                 </div>
