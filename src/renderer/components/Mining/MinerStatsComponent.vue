@@ -89,17 +89,15 @@ export default {
       pool: {},
       apiKey: localStorage.getItem('apiKey'),
       wallet: {},
-      timeout: {
-        statsInterval: false,
-        poolInterval: false
-      },
-      interval: false
+      interval: false,
+      rigName: localStorage.getItem('rigName')
     }
   },
   mounted () {
     // Recieve event bus
     this.$bus.$on('startInterval', () => this.getMinerStats())
     this.$bus.$on('stopInterval', () => this.stopInterval())
+    this.$bus.$on('setRigName', data => { this.rigName = data })
   },
   methods: {
     getPool () {
@@ -112,14 +110,20 @@ export default {
 
     startInterval () {
       this.interval = setInterval(() => {
+        console.log('Interval')
         this.getMinerStats()
         this.getPool()
+        // send post request to store the data
+        this.$http.post('data/claymore', { data: this.claymore }).then(response => {
+          console.log(response)
+        })
         this.$pusher.trigger('minerctl_desktop', 'updateMinerStats_' + localStorage.getItem('userId'), this.claymore)
       }, 8000)
     },
 
     stopInterval () {
       clearInterval(this.interval)
+      this.interval = false
     },
 
     setWallet (data) {
@@ -138,6 +142,8 @@ export default {
       })
       response.then((data) => {
         this.claymore = c
+        this.claymore.rigname = this.rigName
+        this.claymore.userId = localStorage.getItem('userId')
       }).catch(error => {
         console.log(error)
       })

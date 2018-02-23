@@ -98,6 +98,7 @@ export default {
       if (this.wallet.currency === 'etc') { this.pool = 'eu1-etc.ethermine.org:4444' }
 
       this.$bus.$emit('toggleLoading', 'Starting Miner')
+      localStorage.setItem('rigName', this.rigName)
 
       var gpus = []
       Object.keys(this.startGpus).forEach((i) => {

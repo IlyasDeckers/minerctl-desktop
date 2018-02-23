@@ -90,7 +90,6 @@ export default {
         // Check if there are more then 1 GPU on  the system
         // and return the processes
         if (JSON.stringify(gpu[1]).search('EthDcrMiner64.exe') > 0) {
-          this.$bus.$emit('startInterval')
           this.runningHeading = 'Currently mining ETH'
           this.process = true
           ps.lookup({ command: 'EthDcrMiner64.exe' }, (err, resultList) => {
@@ -100,6 +99,8 @@ export default {
             }
             this.pid = resultList[0].pid
           })
+
+          this.$bus.$emit('startInterval')
         }
         // Disable loading and show stats mining component
         this.loading.state = false
