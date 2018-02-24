@@ -119,12 +119,12 @@ export default {
           console.log(response)
         })
         this.$pusher.trigger('minerctl_desktop', 'updateMinerStats_' + localStorage.getItem('userId'), this.claymore)
-      }, 8000)
+      }, 10000)
     },
 
     stopInterval () {
       clearInterval(this.interval)
-      this.interval = false
+      // this.interval = false
     },
 
     setWallet (data) {

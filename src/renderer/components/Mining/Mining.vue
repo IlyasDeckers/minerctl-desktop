@@ -61,7 +61,6 @@ export default {
   },
 
   mounted () {
-    this.$bus.$emit('stopInterval')
     // Check if miner is already running
     this.isRunning()
     // Recieve event bus
@@ -76,6 +75,9 @@ export default {
     },
 
     isRunning () {
+      // Stop the interval everytime the component
+      // is loaded to prevent dubble/triple/... requests (hack!)
+      this.$bus.$emit('stopInterval')
       // Get the active processes per GPU
       // and check if claymore is running
       smi((err, data) => {

@@ -17,7 +17,7 @@
   import 'material-dashboard/js/sweetalert2.js'
   import 'material-dashboard/js/demo.js'
   export default {
-    name: 'MinerCTL'
+    name: 'Minerctl'
   }
 </script>
 
