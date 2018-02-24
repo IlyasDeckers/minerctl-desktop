@@ -20,7 +20,7 @@
         </div>
         <div class="card-content">
           <p class="category">Shares</p>
-          <h3 class="title">{{ claymore.response.shares.valid }}</h3>
+          <h3 class="title">{{ claymore.response.shares_valid }}</h3>
         </div>
       </div>
     </div>
@@ -77,13 +77,16 @@ export default {
   data () {
     return {
       claymore: {
+        host: '',
+        method: '',
+        port: '',
+        rigname: '',
+        userId: '',
         response: {
+          gpus: {},
           hashrate: '',
-          shares: {
-            valid: '',
-            rejected: ''
-          },
-          gpus: {}
+          shares_valid: 0,
+          shares_invalid: 0
         }
       },
       pool: {},
@@ -103,7 +106,7 @@ export default {
   methods: {
     getPool () {
       this.$http.get(
-        this.$env.HOME_URL + '/api/pools/' + localStorage.getItem('currentMiningAddress')
+        this.$env.HOME_URL + 'api/pools/' + localStorage.getItem('currentMiningAddress')
       ).then(response => {
         this.pool = response.data[0]
       })
@@ -124,7 +127,6 @@ export default {
 
     stopInterval () {
       clearInterval(this.interval)
-      // this.interval = false
     },
 
     setWallet (data) {

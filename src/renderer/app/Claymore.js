@@ -44,10 +44,9 @@ export default class Claymore {
 
     response.hashrate = values[2][0] / 1000
     response.pool = values[7][0]
-    response.shares = {
-      valid: values[2][1],
-      invalid: values[2][2]
-    }
+    response.shares_valid = values[2][1]
+    response.shares_invalid = values[2][2]
+
     // Set GPU temperatures
     values[6].forEach((data, i) => {
       if (i % 2) fanSpeeds.push(data); else temperatures.push(data)
