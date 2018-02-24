@@ -99,24 +99,22 @@ export default {
   methods: {
     getWallets () {
       this.request('wallets', 'wallets')
-      this.check()
     },
 
     getWallet () {
-      this.request(
-        'wallet/',
-        'wallet',
-        this.wallets[ 0 ].address
-      )
+      console.log('getWallet triggered')
+      this.request('wallet/', 'wallet', this.wallets[ 0 ].address)
     },
 
     check () {
       if (this.wallet !== '' && this.wallets !== {}) {
         this.loading.state = false
       } else {
+        this.getWallet()
+        this.getTransactions()
         setTimeout(() => {
           this.check()
-        }, 1000)
+        }, 2000)
       }
     },
 
@@ -126,6 +124,8 @@ export default {
 
     request (url, key, params = '') {
       this.$http.get(url + params).then(response => {
+        this[key] = response.data
+
         if (key === 'transactions') {
           response.data.forEach((data) => {
             if (data.to.toLowerCase() === this.wallets[ 0 ].address.toLowerCase()) {
@@ -135,11 +135,8 @@ export default {
             }
           })
         }
-        this[key] = response.data
-
-        if (this.wallet === '') {
-          this.getWallet()
-          this.getTransactions()
+        if (key === 'wallets') {
+          this.check()
         }
       })
     }
