@@ -105,9 +105,11 @@ export default {
         if (this.startGpus[i] === true) gpus.push(i)
       })
 
-      var spawn = childProcess.spawn
+      const spawn = childProcess.spawn
+      const remote = require('electron').remote
+      const app = remote.app
       spawn('cmd.exe', [
-        '/c', 'C:\\Claymore_v10.0\\EthDcrMiner64.exe -epool ' + this.pool + ' -ewal ' + this.wallet.address + '.' + this.rigName + ' -di ' + gpus + ' -epsw x -mode 1 -allpools 1'
+        '/c', app.getPath('documents') + '\\minerctl\\bin\\Claymore_v10.0\\EthDcrMiner64.exe -epool ' + this.pool + ' -ewal ' + this.wallet.address + '.' + this.rigName + ' -di ' + gpus + ' -epsw x -mode 1 -allpools 1'
       ], { detached: true })
 
       setTimeout(data => {
