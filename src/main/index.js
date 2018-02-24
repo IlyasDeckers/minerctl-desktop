@@ -26,7 +26,6 @@ function createWindow () {
   })
 
   mainWindow.loadURL(winURL)
-  mainWindow.openDevTools()
 
   mainWindow.on('closed', () => {
     mainWindow = null
