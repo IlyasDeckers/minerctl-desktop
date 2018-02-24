@@ -24,7 +24,7 @@ export default class Backend {
     }
 
     this.http = axios.create({
-      baseURL: host + '/' + prefix + '/',
+      baseURL: host + prefix + '/',
       timeout: 25000,
       headers: headers
     })
