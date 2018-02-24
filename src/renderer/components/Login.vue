@@ -41,7 +41,6 @@ export default {
     }
   },
   mounted () {
-    console.log('login')
     if (localStorage.getItem('apiKey') !== null) { this.$router.push('mining') }
 
     if (localStorage.getItem('menuHome') === null) {
