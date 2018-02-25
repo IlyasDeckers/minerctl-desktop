@@ -27,7 +27,7 @@
           <div class="card-content">
             <div class="row">
               <div class="col-md-4">
-                <ul class="nav nav-pills nav-pills-icons nav-pills-info nav-stacked" role="tablist">
+                <ul class="nav nav-pills nav-pills-icons nav-pills-rose nav-stacked" role="tablist">
                   <li class="active">
                     <a href="#CPU" role="tab" data-toggle="tab">
                       <div class="svg-icon cpu-processor">
@@ -54,7 +54,7 @@
               <div class="col-md-8">
                 <div class="tab-content">
                   <div class="tab-pane active" id="CPU">
-                    CPU Info
+                    CPU rose
                   </div>
                   <div class="tab-pane" id="GPU">
                     <div class="form-group label-floating is-empty">

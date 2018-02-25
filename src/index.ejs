@@ -14,20 +14,23 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="main-panel" style="float: none; position: initial; width: 100%;">
-            <div class="content" style="margin-top: 20px;">
-                <div class="">
-                    <div id="app"></div>
-                    <script>
-                        window.$ = window.jQuery = require('jquery')
-                        window.Popper = require('popper.js')
-                        if (process.env.NODE_ENV !== 'development') {
-                            window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
-                        }
-                    </script>
+        <div filter-color="black" class="full-page register-page">
+            <div class="content">
+                <div class="main-panel" style="float: none; position: initial; width: 100%;">
+                    <div class="content" style="margin-top: 20px;">
+                        <div class="">
+                            <div id="app"></div>
+                            <script>
+                                window.$ = window.jQuery = require('jquery')
+                                window.Popper = require('popper.js')
+                                if (process.env.NODE_ENV !== 'development') {
+                                    window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+                                }
+                            </script>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
         </div>
     </div>
 </body>

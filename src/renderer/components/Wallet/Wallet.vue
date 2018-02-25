@@ -13,7 +13,7 @@
               </div>
 
               <div class="card-content" v-show="!loading.state">
-                <ul class="nav nav-pills nav-pills-info" style="margin-top:0px;">
+                <ul class="nav nav-pills nav-pills-rose" style="margin-top:0px;">
                     <li class="active">
                         <router-link to="{name: 'wallet'}" data-toggle="tab">Transactions</router-link>
                     </li>

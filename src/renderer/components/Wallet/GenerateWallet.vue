@@ -89,7 +89,7 @@
                     </div>
                    </div>
                     <div class="modal-footer text-center">
-                      <a href="button" class="btn btn-info btn-round" data-dismiss="modal">I Understand</a>
+                      <a href="button" class="btn btn-rose btn-round" data-dismiss="modal">I Understand</a>
                     </div>
                   </div>
                 </div>

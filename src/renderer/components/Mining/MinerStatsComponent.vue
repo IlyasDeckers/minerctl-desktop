@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-top:40px;">
     <div class="col-lg-4 col-md-4 col-sm-12">
       <div class="card card-stats">
         <div class="card-header" data-background-color="orange">
@@ -117,6 +117,7 @@ export default {
       this.interval = setInterval(() => {
         this.rigName = localStorage.getItem('rigName')
         this.getMinerStats()
+        this.$bus.$emit('isRunning')
         this.$pusher.trigger('minerctl_desktop', 'updateMinerStats_' + localStorage.getItem('userId'), this.claymore)
       }, 20000)
     },

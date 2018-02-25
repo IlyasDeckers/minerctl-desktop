@@ -10,7 +10,7 @@
                 <p>Cannot connect to the main server. Please check your internet connection</p>
               </div>
               <div class="form-group form-button text-center">
-                <router-link to="/dashboard" class="btn btn-fill btn-info">Retry<div class="ripple-container"></div></router-link>
+                <router-link to="/dashboard" class="btn btn-fill btn-rose">Retry<div class="ripple-container"></div></router-link>
               </div>
             </div>
         </div>

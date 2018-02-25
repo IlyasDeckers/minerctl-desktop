@@ -42,7 +42,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="form-group form-button text-center">
-          <button type="submit" class="btn btn-fill btn-info">Start Miner<div class="ripple-container"></div></button>
+          <button type="submit" class="btn btn-fill btn-rose">Start Miner<div class="ripple-container"></div></button>
         </div>
       </div>
     </div>

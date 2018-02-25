@@ -40,10 +40,10 @@
                   </div>
                 </div>
                 <label class="col-sm-1 label-on-right" style="padding: 11px 0 0 5px;">
-                  <a class="btn btn-fill btn-info btn-xs" @click="showApiKey">{{ viewButton }}</a>
+                  <a class="btn btn-fill btn-rose btn-xs" @click="showApiKey">{{ viewButton }}</a>
                 </label>
               </div>
-              <div class="row">
+              <!--<div class="row">
                 <label class="col-sm-2 label-on-left">Edit Menu</label>
                 
                 <div class="col-sm-3">
@@ -60,12 +60,12 @@
                     </label>
                   </div>
                 </div>
-              </div>
+              </div>-->
               <div class="row">
                 <label class="col-md-2"></label>
                 <div class="col-md-9">
                   <div class="form-group form-button text-center">
-                    <a @click="saveSettings()" class="btn btn-fill btn-info">Save Settings<div class="ripple-container"></div></a>
+                    <a @click="saveSettings()" class="btn btn-fill btn-rose">Save Settings<div class="ripple-container"></div></a>
                   </div>
                 </div>
               </div>

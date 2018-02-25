@@ -20,7 +20,7 @@
           </div>
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-info">Connect<div class="ripple-container"></div></button>
+            <button type="submit" class="btn btn-rose">Connect<div class="ripple-container"></div></button>
           </div>
         </div>
       </form>
