@@ -18,7 +18,7 @@
                 <div class="row" v-show="process">
                   <div class="col-md-12">
                     <div class="form-group form-button text-center">
-                      <a @click="stopMiner()" class="btn btn-fill btn-info">Stop Miner<div class="ripple-container"></div></a>
+                      <a @click="stopMiner()" class="btn btn-fill btn-rose">Stop Miner<div class="ripple-container"></div></a>
                     </div>
                   </div>
                 </div>
@@ -94,6 +94,11 @@ export default {
         // pid data.
         this.filterGpus(gpu)
         // Disable loading and show stats mining component
+        if (this.process === true) {
+          this.runningHeading = 'Currently mining Ethereum'
+        } else {
+          this.runningHeading = 'Not running'
+        }
         this.loading.state = false
       })
     },
@@ -118,6 +123,7 @@ export default {
       const processPath = app.getPath('documents') + '\\minerctl\\bin\\Claymore_v10.0\\EthDcrMiner64.exe'
       console.log(gpu)
       const claymoreProcess = gpu.filter((g, index) => {
+        this.pid = ''
         try {
           if (typeof g.processes.process_info.pid !== 'undefined') {
             this.setPid(g.processes.process_info, processPath)
@@ -128,23 +134,27 @@ export default {
           }
         } catch (err) {
           console.log('Error searching pid: ' + err)
-          return false
         }
 
         if (this.pid !== '') {
           console.log('pid set: ' + this.pid)
           return true
         } else {
-          console.log('pid not found')
           return false
         }
       })
 
       if (claymoreProcess[0]) {
-        console.log('Claymore process found')
         this.process = true
+        // Triger the interval for sending data to the backend
         this.$bus.$emit('startInterval')
-        this.runningHeading = 'Currently mining Ethereum'
+      } else {
+        if (this.process === true) {
+          alert('Miner stopped')
+        }
+        this.process = false
+        console.log('Process not found: ' + processPath)
+        return false
       }
     },
 
