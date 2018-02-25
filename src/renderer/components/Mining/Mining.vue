@@ -75,8 +75,8 @@ export default {
     },
 
     isRunning () {
-      // Stop the interval everytime the component
-      // is loaded to prevent dubble/triple/... requests (hack!)
+      // Stop the interval everytime the component is loaded,
+      // to prevent dubble/triple/... requests (hack!)
       this.$bus.$emit('stopInterval')
       // Get the active processes per GPU
       // and check if claymore is running
@@ -89,25 +89,10 @@ export default {
         // this to StartMiner.
         var gpu = data.nvidia_smi_log.gpu
         this.$bus.$emit('setGpus', gpu)
-        // Check if there are more then 1 GPU on  the system
-        // and return the processes
-        const remote = require('electron').remote
-        const app = remote.app
-        const claymoreProcess = gpu.filter((g) => {
-          try {
-            return g.processes.process_info.process_name === app.getPath('documents') + '\\minerctl\\bin\\Claymore_v10.0\\EthDcrMiner64.exe'
-          } catch (err) {
-
-          }
-        })
-
-        if (JSON.stringify(claymoreProcess).search('EthDcrMiner64.exe') > 0) {
-          this.runningHeading = 'Currently mining ETH'
-          this.process = true
-          // Search EthDcrMiner64.exe if more than one process
-          this.pid = claymoreProcess[0].processes.process_info.pid
-          this.$bus.$emit('startInterval')
-        }
+        // Filter the GPUs processess for running
+        // Claymore processess. This sets the process and
+        // pid data.
+        this.filterGpus(gpu)
         // Disable loading and show stats mining component
         this.loading.state = false
       })
@@ -125,6 +110,48 @@ export default {
         this.$bus.$emit('stopInterval')
         this.isRunning()
       })
+    },
+
+    filterGpus (gpu) {
+      const remote = require('electron').remote
+      const app = remote.app
+      const processPath = app.getPath('documents') + '\\minerctl\\bin\\Claymore_v10.0\\EthDcrMiner64.exe'
+      console.log(gpu)
+      const claymoreProcess = gpu.filter((g, index) => {
+        try {
+          if (typeof g.processes.process_info.pid !== 'undefined') {
+            this.setPid(g.processes.process_info, processPath)
+          } else if (g.processes !== 'N/A' || typeof g.processes.process_info !== 'undefined') {
+            g.processes.process_info.forEach((process) => {
+              this.setPid(process, processPath)
+            })
+          }
+        } catch (err) {
+          console.log('Error searching pid: ' + err)
+          return false
+        }
+
+        if (this.pid !== '') {
+          console.log('pid set: ' + this.pid)
+          return true
+        } else {
+          console.log('pid not found')
+          return false
+        }
+      })
+
+      if (claymoreProcess[0]) {
+        console.log('Claymore process found')
+        this.process = true
+        this.$bus.$emit('startInterval')
+        this.runningHeading = 'Currently mining Ethereum'
+      }
+    },
+
+    setPid (process, processPath) {
+      if (process.process_name === processPath) {
+        this.pid = process.pid
+      }
     },
 
     toggleLoading (message) {
