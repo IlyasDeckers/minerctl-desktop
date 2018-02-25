@@ -89,7 +89,9 @@ export default {
           shares_invalid: 0
         }
       },
-      pool: {},
+      pool: {
+        unpaid: 0
+      },
       apiKey: localStorage.getItem('apiKey'),
       wallet: {},
       interval: false,
@@ -101,7 +103,6 @@ export default {
     this.$bus.$on('startInterval', () => this.getMinerStats())
     this.$bus.$on('stopInterval', () => this.stopInterval())
     this.$bus.$on('setRigName', data => { this.rigName = data })
-    this.rigName = localStorage.getItem('rigName')
   },
   methods: {
     getPool () {
@@ -116,13 +117,8 @@ export default {
       this.interval = setInterval(() => {
         this.rigName = localStorage.getItem('rigName')
         this.getMinerStats()
-        this.getPool()
-        // send post request to store the data
-        this.$http.post('data/claymore', { data: this.claymore }).then(response => {
-          console.log(response)
-        })
         this.$pusher.trigger('minerctl_desktop', 'updateMinerStats_' + localStorage.getItem('userId'), this.claymore)
-      }, 10000)
+      }, 20000)
     },
 
     stopInterval () {
@@ -133,7 +129,15 @@ export default {
       this.wallet = data
     },
 
+    sendHome () {
+      // send post request to store the data
+      this.$http.post('data/claymore', { data: this.claymore })
+    },
+
     getMinerStats () {
+      setTimeout(() => {
+        this.getPool()
+      }, 500)
       if (this.interval === false) this.startInterval()
       const c = new Claymore('miner_getstat1')
       const response = new Promise((resolve, reject) => {
@@ -144,9 +148,13 @@ export default {
         }
       })
       response.then((data) => {
-        this.claymore = c
-        this.claymore.rigname = this.rigName
-        this.claymore.userId = localStorage.getItem('userId')
+        setTimeout(() => {
+          this.claymore = c
+          this.claymore.rigname = localStorage.getItem('rigName')
+          this.claymore.userId = localStorage.getItem('userId')
+
+          this.sendHome()
+        }, 100)
       }).catch(error => {
         console.log(error)
       })
