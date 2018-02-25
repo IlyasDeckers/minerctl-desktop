@@ -91,17 +91,21 @@ export default {
         this.$bus.$emit('setGpus', gpu)
         // Check if there are more then 1 GPU on  the system
         // and return the processes
-        if (JSON.stringify(gpu[1]).search('EthDcrMiner64.exe') > 0) {
+        const remote = require('electron').remote
+        const app = remote.app
+        const claymoreProcess = gpu.filter((g) => {
+          try {
+            return g.processes.process_info.process_name === app.getPath('documents') + '\\minerctl\\bin\\Claymore_v10.0\\EthDcrMiner64.exe'
+          } catch (err) {
+
+          }
+        })
+
+        if (JSON.stringify(claymoreProcess).search('EthDcrMiner64.exe') > 0) {
           this.runningHeading = 'Currently mining ETH'
           this.process = true
-          ps.lookup({ command: 'EthDcrMiner64.exe' }, (err, resultList) => {
-            if (err) {
-              this.process = false
-              throw new Error(err)
-            }
-            this.pid = resultList[0].pid
-          })
-
+          // Search EthDcrMiner64.exe if more than one process
+          this.pid = claymoreProcess[0].processes.process_info.pid
           this.$bus.$emit('startInterval')
         }
         // Disable loading and show stats mining component
