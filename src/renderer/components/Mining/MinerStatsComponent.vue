@@ -103,17 +103,12 @@ export default {
       wallet: {},
       interval: false,
       short_interval: false,
-      rigName: ''
+      rigName: '',
+      connRefused: 0
     }
   },
   mounted () {
     this.getPool()
-
-    setTimeout(() => {
-      if (this.claymore.method !== '') {
-        this.sendHome()
-      }
-    }, 2500)
 
     // Recieve event bus
     this.$bus.$on('startInterval', () => this.getMinerStats())
@@ -130,6 +125,10 @@ export default {
     },
 
     startInterval () {
+      setTimeout(() => {
+        this.sendHome()
+      }, 5000)
+
       this.interval = setInterval(() => {
         console.log('interval')
         setTimeout(() => {
@@ -143,13 +142,37 @@ export default {
         console.log('shortinterval')
         this.rigName = localStorage.getItem('rigName')
         this.getMinerStats()
-      }, 2000)
+        console.log(Object.keys(this.claymore.response).length)
+        if (Object.keys(this.claymore.response).length === 0) {
+          this.connRefused++
+          if (this.connRefused >= 10) {
+            this.minerHasStopped()
+            this.connRefused = 0
+          }
+        }
+      }, 1000)
+    },
+
+    minerHasStopped () {
+      this.$bus.$emit('stopMiner')
+      this.$bus.$emit('stopInterval')
+      this.$bus.$emit('error', 'Miner closed unexpectedly')
+      // Send sms and post notification to the database
+      this.$http.post('data/notification', {
+        data: {
+          message: 'Your miner <code>' + this.rigName + '</code> stopped unexpectedly',
+          userId: localStorage.getItem('userId'),
+          type: 'warning'
+        }
+      })
     },
 
     stopInterval () {
       console.log('Clearing interval')
       clearInterval(this.interval)
       clearInterval(this.short_interval)
+      this.interval = false
+      this.short_interval = false
       this.claymore = {}
     },
 

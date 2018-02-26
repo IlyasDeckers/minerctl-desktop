@@ -29,7 +29,7 @@
       </div>
       <label class="col-sm-2 label-on-left">Select GPU's</label>
       <div class="col-sm-9">
-        <div class="col-sm-6" v-for="(gpu,index)  in gpus">
+        <div class="col-sm-6" v-for="(gpu,index) in gpus">
           <div class="togglebutton">
             <label>
               <input type="checkbox" v-model="startGpus[index]" checked=""><span class="toggle"></span> {{ gpu.product_name }}

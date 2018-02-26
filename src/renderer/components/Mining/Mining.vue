@@ -5,16 +5,17 @@
         <div class="nav-center">
           <Navigation></Navigation>
         </div>
-        {{ error }}
         <div class="row">
           <MinerStatsComponent v-show="process || !loading"></MinerStatsComponent>
-          
           <div class="col-md-12" v-show="!process">
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">Mining - <small class="category">{{ runningHeading }}</small></h4>
               </div>
               <div class="card-content" v-show="!loading.state">
+                <div v-if="error" class="alert alert-danger">
+                  {{ error }}
+                </div>
                 <StartMinerComponent v-show="!process"></StartMinerComponent>
                 
               </div>
@@ -50,8 +51,7 @@ export default {
       output: {},
       process: false,
       pid: '',
-      runningHeading: 'Not running',
-      error: ''
+      runningHeading: 'Not running'
     }
   },
 
@@ -63,6 +63,7 @@ export default {
     this.$bus.$on('toggleLoading', message => this.toggleLoading(message))
     this.$bus.$on('stopMiner', event => this.stopMiner())
     this.$bus.$on('restartMiner', event => this.restartMiner())
+    this.$bus.$on('error', error => { this.error = error })
   },
 
   methods: {

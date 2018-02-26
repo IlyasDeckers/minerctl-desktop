@@ -9,9 +9,9 @@ export default class Claymore {
   }
 
   socket () {
+    const socket = require('net')
+    var s = socket.Socket()
     try {
-      const socket = require('net')
-      var s = socket.Socket()
       s.setEncoding('ascii')
       s.connect(this.port, this.host)
       var response = new Promise((resolve, reject) => {
