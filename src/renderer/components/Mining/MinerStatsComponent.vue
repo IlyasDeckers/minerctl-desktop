@@ -31,7 +31,7 @@
         </div>
         <div class="card-content">
           <p class="category">Unpaid Balance</p>
-          <h3 class="title">{{ roundNumber(pool.unpaid, 4) }}
+          <h3 class="title">{{ roundNumber(pool.unpaid, 5) }}
             <small>ETH</small>
           </h3>
         </div>
@@ -57,12 +57,19 @@
                 <tbody>
                   <tr v-for="(gpu, index) in claymore.response.gpus">
                     <td>gpu{{ index }}</td>
-                    <td>{{ gpu.hashrates }} MH/s</td>
+                    <td>{{ roundNumber(gpu.hashrates, 2) }} MH/s</td>
                     <td>{{ gpu.temperature }} &#176;C</td>
                     <td>{{ gpu.fanSpeed }} %</td>
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group form-button text-center">
+                <a @click="$bus.$emit('stopMiner')" class="btn btn-fill btn-rose">Stop Mining<div class="ripple-container"></div></a>
+              </div>
             </div>
           </div>
         </div>
@@ -95,10 +102,19 @@ export default {
       apiKey: localStorage.getItem('apiKey'),
       wallet: {},
       interval: false,
+      short_interval: false,
       rigName: ''
     }
   },
   mounted () {
+    this.getPool()
+
+    setTimeout(() => {
+      if (this.claymore.method !== '') {
+        this.sendHome()
+      }
+    }, 2500)
+
     // Recieve event bus
     this.$bus.$on('startInterval', () => this.getMinerStats())
     this.$bus.$on('stopInterval', () => this.stopInterval())
@@ -115,15 +131,26 @@ export default {
 
     startInterval () {
       this.interval = setInterval(() => {
+        console.log('interval')
+        setTimeout(() => {
+          this.getPool()
+        }, 1000)
+        this.sendHome()
+        this.$pusher.trigger('minerctl_desktop', 'updateMinerStats_' + localStorage.getItem('userId'), this.claymore)
+      }, 60000)
+
+      this.short_interval = setInterval(() => {
+        console.log('shortinterval')
         this.rigName = localStorage.getItem('rigName')
         this.getMinerStats()
-        this.$bus.$emit('isRunning')
-        this.$pusher.trigger('minerctl_desktop', 'updateMinerStats_' + localStorage.getItem('userId'), this.claymore)
-      }, 20000)
+      }, 2000)
     },
 
     stopInterval () {
+      console.log('Clearing interval')
       clearInterval(this.interval)
+      clearInterval(this.short_interval)
+      this.claymore = {}
     },
 
     setWallet (data) {
@@ -136,9 +163,6 @@ export default {
     },
 
     getMinerStats () {
-      setTimeout(() => {
-        this.getPool()
-      }, 500)
       if (this.interval === false) this.startInterval()
       const c = new Claymore('miner_getstat1')
       const response = new Promise((resolve, reject) => {
@@ -153,9 +177,7 @@ export default {
           this.claymore = c
           this.claymore.rigname = localStorage.getItem('rigName')
           this.claymore.userId = localStorage.getItem('userId')
-
-          this.sendHome()
-        }, 100)
+        }, 200)
       }).catch(error => {
         console.log(error)
       })

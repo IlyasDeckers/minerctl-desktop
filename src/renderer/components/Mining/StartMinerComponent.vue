@@ -77,6 +77,7 @@ export default {
       }
       this.gpus = data
     })
+    this.$bus.$on('startMiner', event => this.startMiner())
   },
 
   methods: {

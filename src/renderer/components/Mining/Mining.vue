@@ -1,27 +1,22 @@
 <template>
   <div class="col-md-12 ">
     <div class="row">
-      <div class="col-md-12 col-lg-8 col-lg-offset-2">
+      <div class="col-md-12 col-lg-10 col-sm-12 col-lg-offset-1">
         <div class="nav-center">
           <Navigation></Navigation>
         </div>
         {{ error }}
         <div class="row">
           <MinerStatsComponent v-show="process || !loading"></MinerStatsComponent>
-          <div class="col-md-12">
+          
+          <div class="col-md-12" v-show="!process">
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">Mining - <small class="category">{{ runningHeading }}</small></h4>
               </div>
               <div class="card-content" v-show="!loading.state">
                 <StartMinerComponent v-show="!process"></StartMinerComponent>
-                <div class="row" v-show="process">
-                  <div class="col-md-12">
-                    <div class="form-group form-button text-center">
-                      <a @click="stopMiner()" class="btn btn-fill btn-rose">Stop Miner<div class="ripple-container"></div></a>
-                    </div>
-                  </div>
-                </div>
+                
               </div>
               <div class="card-content" v-show="loading.state">
                 <p class="text-center"><Loading :message="loading.message"></Loading></p>
@@ -66,12 +61,22 @@ export default {
     // Recieve event bus
     this.$bus.$on('isRunning', event => this.isRunning())
     this.$bus.$on('toggleLoading', message => this.toggleLoading(message))
+    this.$bus.$on('stopMiner', event => this.stopMiner())
+    this.$bus.$on('restartMiner', event => this.restartMiner())
   },
 
   methods: {
     stopMiner () {
       this.toggleLoading('Stopping Miner')
       this.killProcess()
+    },
+
+    restartMiner () {
+      this.toggleLoading('Restarting Miner')
+      this.killProcess()
+      setTimeout(() => {
+        this.$bus.$emit('startMiner')
+      }, 3000)
     },
 
     isRunning () {
@@ -118,49 +123,48 @@ export default {
     },
 
     filterGpus (gpu) {
+      const claymoreProcess = new Promise((resolve, reject) => {
+        gpu.filter((g, index) => {
+          this.pid = ''
+          try {
+            // The returned Array can be multidiensional
+            // if there are multiple processes on one GPU
+            this.detectGpuArrays(g)
+          } catch (err) {
+            // No such process in this array
+            console.log('Error searching pid: ' + err)
+          }
+
+          if (this.pid !== '') {
+            console.log('pid set: ' + this.pid)
+            resolve()
+          }
+        })
+      })
+
+      claymoreProcess.then(() => {
+        console.log('response')
+        this.$bus.$emit('startInterval')
+      })
+    },
+
+    detectGpuArrays (g) {
       const remote = require('electron').remote
       const app = remote.app
       const processPath = app.getPath('documents') + '\\minerctl\\bin\\Claymore_v10.0\\EthDcrMiner64.exe'
-      console.log(gpu)
-      const claymoreProcess = gpu.filter((g, index) => {
-        this.pid = ''
-        try {
-          if (typeof g.processes.process_info.pid !== 'undefined') {
-            this.setPid(g.processes.process_info, processPath)
-          } else if (g.processes !== 'N/A' || typeof g.processes.process_info !== 'undefined') {
-            g.processes.process_info.forEach((process) => {
-              this.setPid(process, processPath)
-            })
-          }
-        } catch (err) {
-          console.log('Error searching pid: ' + err)
-        }
-
-        if (this.pid !== '') {
-          console.log('pid set: ' + this.pid)
-          return true
-        } else {
-          return false
-        }
-      })
-
-      if (claymoreProcess[0]) {
-        this.process = true
-        // Triger the interval for sending data to the backend
-        this.$bus.$emit('startInterval')
-      } else {
-        if (this.process === true) {
-          alert('Miner stopped')
-        }
-        this.process = false
-        console.log('Process not found: ' + processPath)
-        return false
+      if (typeof g.processes.process_info.pid !== 'undefined') {
+        this.setPid(g.processes.process_info, processPath)
+      } else if (g.processes !== 'N/A' || typeof g.processes.process_info !== 'undefined') {
+        g.processes.process_info.forEach((process) => {
+          this.setPid(process, processPath)
+        })
       }
     },
 
     setPid (process, processPath) {
       if (process.process_name === processPath) {
         this.pid = process.pid
+        this.process = true
       }
     },
 
