@@ -12,19 +12,9 @@
 - currently NVIDIA GPU's only
 - only works with ethermine.org as mining pool
 
-### Software dependencies
-The miner makes use of Claymore dual miner. To be able to start the miner Claymore v10.0.0 has to be located on your C drive `C:\Claymore_v10.0`. This will be fixed shortly.
-
-This application relies on nvidia-smi. The program comes bundled with Nvidia's Graphics Drivers and is located under:
-
-```
-C:\Program Files\NVIDIA Corporation\NVSMI\nvidia-smi.exe
-```
-
-Later on, these dependencies will be included in the build, a.t.m. you will need to make sure that Claymore and nvidia-smi is installed correctly on your system.
-
 ## Installation
 The installation has two options, run the installer (recommended) or build from the source. When you choose to build the application from the source you will need to run the backend privately as minerctl.eu will not share some of the required keys to make this application work.
+
 ### Using the installer
 #### Windows
 Go to the [release page](https://github.com/IlyasDeckers/minerctl-desktop/releases) and download the latest release. Run the setup and you are ready to go.
