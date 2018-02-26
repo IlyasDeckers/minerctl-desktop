@@ -21,13 +21,17 @@ init:
 
 install:
   - ps: Install-Product node 8 x64
-  - choco install yarn --ignore-dependencies
-  - git reset --hard HEAD
-  - yarn
+  # install modules
+  - npm install
+
+# Post-install test scripts.
+test_script:
+  # Output useful info for debugging.
   - node --version
+  - npm --version
 
 build_script:
   #- yarn test
-  - yarn build
+  - npm run build
 
 test: off
