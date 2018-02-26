@@ -117,6 +117,15 @@ export default {
         this.$bus.$emit('isRunning')
       }, 10000)
 
+      // notify the backend upon successful start
+      this.$http.post('data/notification', {
+        data: {
+          message: 'miner <code>' + localStorage.getItem('rigName') + '</code> succesfully started',
+          userId: localStorage.getItem('userId'),
+          type: 'success'
+        }
+      })
+
       this.loading = {
         state: false,
         message: 'Starting Miner'

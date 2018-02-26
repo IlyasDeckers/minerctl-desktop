@@ -61,6 +61,7 @@ export default {
     // Recieve event bus
     this.$bus.$on('isRunning', event => this.isRunning())
     this.$bus.$on('toggleLoading', message => this.toggleLoading(message))
+    this.$bus.$on('killProcess', event => this.killProcess())
     this.$bus.$on('stopMiner', event => this.stopMiner())
     this.$bus.$on('restartMiner', event => this.restartMiner())
     this.$bus.$on('error', error => { this.error = error })
@@ -70,6 +71,15 @@ export default {
     stopMiner () {
       this.toggleLoading('Stopping Miner')
       this.killProcess()
+
+      // notify the backend upon successful stop
+      this.$http.post('data/notification', {
+        data: {
+          message: 'miner <code>' + localStorage.getItem('rigName') + '</code> was stopped by the user',
+          userId: localStorage.getItem('userId'),
+          type: 'warning'
+        }
+      })
     },
 
     restartMiner () {
@@ -105,6 +115,7 @@ export default {
         } else {
           this.runningHeading = 'Not running'
         }
+
         this.loading.state = false
       })
     },

@@ -145,6 +145,10 @@ export default {
         console.log(Object.keys(this.claymore.response).length)
         if (Object.keys(this.claymore.response).length === 0) {
           this.connRefused++
+          this.$bus.$emit('toggleLoading', 'Something went wong...')
+          if (this.connRefused >= 4) {
+            this.$bus.$emit('toggleLoading', 'Something went wong...')
+          }
           if (this.connRefused >= 10) {
             this.minerHasStopped()
             this.connRefused = 0
@@ -154,15 +158,16 @@ export default {
     },
 
     minerHasStopped () {
-      this.$bus.$emit('stopMiner')
+      this.$bus.$emit('toggleLoading', 'Something went wong...')
+      this.$bus.$emit('killProcess')
       this.$bus.$emit('stopInterval')
       this.$bus.$emit('error', 'Miner closed unexpectedly')
       // Send sms and post notification to the database
       this.$http.post('data/notification', {
         data: {
-          message: 'Your miner <code>' + this.rigName + '</code> stopped unexpectedly',
+          message: 'miner <code>' + this.rigName + '</code> stopped unexpectedly',
           userId: localStorage.getItem('userId'),
-          type: 'warning'
+          type: 'danger'
         }
       })
     },
