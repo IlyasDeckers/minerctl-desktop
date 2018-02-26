@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-10 col-md-offset-1">
-   <div class="card">
-    <div class="card-header card-header-icon" data-background-color="blue">
+   <div class="card" style="margin-top:120px;">
+    <div class="card-header card-header-icon" data-background-color="rose">
       <i class="material-icons">perm_identity</i>
     </div>
     <div class="card-content">
@@ -11,9 +11,10 @@
       <form @submit.prevent="key()" class="form-horizontal">
       <div class="row">
         <div class="col-md-12">
+          <label class="col-sm-2 label-on-left">API Key</label>
           <div class="form-group label-floating is-empty">
-            <label class="col-sm-2 label-on-left">API Key</label>
             <div class="col-md-9">
+              <label class="control-label"></label>
               <input class="form-control" v-model="auth.apiKey" style="cursor: auto;" type="text">
               <span class="material-input"></span>
             </div>

@@ -1,26 +1,22 @@
 <template>
   <div class="col-md-12 ">
     <div class="row">
-      <div class="col-md-12 col-lg-8 col-lg-offset-2">
+      <div class="col-md-12 col-lg-10 col-sm-12 col-lg-offset-1">
         <div class="nav-center">
           <Navigation></Navigation>
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="card card-profile">
+              <div class="card-header">
+                <h4 class="card-title text-left">Wallet - <small class="category">Transactions</small></h4>
+              </div>
               <div class="card-content" v-show="loading.state">
                 <p class="text-center"><Loading :message="loading.message"></Loading></p>
               </div>
 
               <div class="card-content" v-show="!loading.state">
-                <ul class="nav nav-pills nav-pills-rose" style="margin-top:0px;">
-                    <li class="active">
-                        <router-link to="{name: 'wallet'}" data-toggle="tab">Transactions</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/wallet/create" data-toggle="tab">Create Wallet</router-link>
-                    </li>
-                </ul>
+
                 <div class="col-md-8" style="text-align: initial;margin-top:10px;">
                   <div class="table-responsive">
                     <table class="table">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="nav nav-pills nav-pills-rose nav-pills-icons" role="tablist">
+    <ul class="nav nav-pills nav-pills-primaryinfo nav-pills-icons" role="tablist">
                   <!--
       color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
   -->
