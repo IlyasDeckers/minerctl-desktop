@@ -3,6 +3,8 @@
 
 > Minerctl desktop application
 
+![alt text](https://s3.eu-central-1.amazonaws.com/minerctldownloads/Capture_cropped.png "https://minerctl.eu")
+
 ## Requirements
 ### System
 - all systems that are Windows 8/10 compatible
