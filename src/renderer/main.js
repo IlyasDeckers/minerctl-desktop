@@ -17,7 +17,7 @@ Object.defineProperty(Vue.prototype, '$bus', {
 
 const Web3 = require('web3')
 Vue.web3 = Vue.prototype.$web3 = new Web3(
-  new Web3.providers.HttpProvider(env.INFURA_URL)
+  new Web3.providers.HttpProvider(env.WEB3_URL + ':' + env.WEB3_PORT)
 )
 
 Vue.http = Vue.prototype.$http = axios.create({

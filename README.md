@@ -34,19 +34,16 @@ git clone https://github.com/IlyasDeckers/minerctl-desktop.git minerctl-desktop
 # install dependencies
 npm install
 ```
-Before we can run the build we have to create an `env.json` file in `./src`. Make sure you are registered with [Infura](https://infura.io/) and [Pusher](https://pusher.com/).
+Before we can run the build we have to create an `env.json` file in `./src`. Make sure you are registered with [Infura](https://infura.io/).
 
 ``` bash
 touch src/env.json
 
 # open the file with your text editor and use the following variables
 {
-  "HOME_URL": "backend_url",
-  "INFURA_URL": "infura_url",
-  "PUSHER_APP_ID": "app_id",
-  "PUSHER_APP_KEY": "app_key",
-  "PUSHER_APP_SECRET": "app_secret",
-  "PUSHER_APP_CLUSTER": "app_cluster"
+  "HOME_URL": "dashboard.yourapp.com",
+  "WEB3_URL": "127.0.0.1",
+  "WEB3_PORT": "8545"
 }
 ```
 Now you are ready to run the build.
