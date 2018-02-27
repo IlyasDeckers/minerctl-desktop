@@ -4,7 +4,6 @@ import App from './app/App'
 import router from './router'
 import svgicon from 'vue-svgicon'
 import env from './env.json'
-import Pusher from 'pusher'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 
@@ -14,14 +13,6 @@ Object.defineProperty(Vue.prototype, '$bus', {
   get () {
     return this.$root.bus
   }
-})
-
-Vue.pusher = Vue.prototype.$pusher = new Pusher({
-  appId: env.PUSHER_APP_ID,
-  key: env.PUSHER_APP_KEY,
-  secret: env.PUSHER_APP_SECRET,
-  cluster: env.PUSHER_APP_CLUSTER,
-  encrypted: true
 })
 
 const Web3 = require('web3')

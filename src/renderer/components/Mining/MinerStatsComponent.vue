@@ -135,7 +135,6 @@ export default {
           this.getPool()
         }, 1000)
         this.sendHome()
-        this.$pusher.trigger('minerctl_desktop', 'updateMinerStats_' + localStorage.getItem('userId'), this.claymore)
       }, 60000)
 
       this.short_interval = setInterval(() => {
