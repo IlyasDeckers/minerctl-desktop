@@ -4,7 +4,7 @@
 # Introduction
 MinerCTL is a simple monitoring solution for Claymore. The desktop application acts as a monitoring agent that sends data to a backend service. Statistics can be monitored through a clean web interface. 
 
-> **TIP:** If Claymore is running on your system you can open the application and it will catch the Claymore process. This is handy in case you run custom startup scripts, and you just need to monitor your rig.
+> **TIP:** If Claymore is running on your system you can open the desktop application and it will catch Claymore's process. This is handy in case you run custom startup scripts, and you just need to monitor your rigs.
 
 ![alt text](https://s3.eu-central-1.amazonaws.com/minerctldownloads/Capture_cropped.png "https://minerctl.eu")
 
